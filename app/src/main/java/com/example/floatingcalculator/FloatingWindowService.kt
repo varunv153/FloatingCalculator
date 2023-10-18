@@ -1,16 +1,16 @@
-package com.example.floatingcalculator;
+package com.example.floatingcalculator
 
-import android.app.Service;
-import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.os.IBinder;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.app.Service
+import android.content.Intent
+import android.graphics.PixelFormat
+import android.os.IBinder
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.view.WindowManager
 import android.widget.Button
-import com.example.floatingcalculator.R;
+import kotlin.math.max
 
 class FloatingWindowService : Service() {
     private var mWindowManager: WindowManager? = null
@@ -21,12 +21,12 @@ class FloatingWindowService : Service() {
     private var initialTouchY: Float = 0.0f
     private var isResizing = false
     private var resizeDirection = ResizeDirection.NONE
-    private val MIN_WINDOW_SIZE = 100
+    private val minWindowSize = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
 
     enum class ResizeDirection {
-        NONE, LEFT, RIGHT, TOP, BOTTOM, TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT
+        NONE
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -72,9 +72,6 @@ class FloatingWindowService : Service() {
                 }
                 MotionEvent.ACTION_MOVE -> {
                     if (isResizing) {
-                        val deltaX = event.rawX - initialTouchX
-                        val deltaY = event.rawY - initialTouchY
-                        resizeWindow(params, deltaX, deltaY)
                         initialTouchX = event.rawX
                         initialTouchY = event.rawY
                     } else {
@@ -101,8 +98,8 @@ class FloatingWindowService : Service() {
                     // Record the initial touch and view size
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
-                    initialWidth = mFloatingView?.width ?: MIN_WINDOW_SIZE
-                    initialHeight = mFloatingView?.height ?: MIN_WINDOW_SIZE
+                    initialWidth = mFloatingView?.width ?: minWindowSize
+                    initialHeight = mFloatingView?.height ?: minWindowSize
                     isResizing = true
                     true
                 }
@@ -110,8 +107,8 @@ class FloatingWindowService : Service() {
                     if (isResizing) {
                         val deltaX = event.rawX - initialTouchX
                         val deltaY = event.rawY - initialTouchY
-                        val newWidth = Math.max(initialWidth + deltaX.toInt(), MIN_WINDOW_SIZE)
-                        val newHeight = Math.max(initialHeight + deltaY.toInt(), MIN_WINDOW_SIZE)
+                        val newWidth = max(initialWidth + deltaX.toInt(), minWindowSize)
+                        val newHeight = max(initialHeight + deltaY.toInt(), minWindowSize)
 
                         // Update the view size
                         mFloatingView?.layoutParams?.width = newWidth
@@ -129,11 +126,6 @@ class FloatingWindowService : Service() {
                 else -> false
             }
         }
-    }
-
-    private fun resizeWindow(params: WindowManager.LayoutParams, deltaX: Float, deltaY: Float) {
-        // Implement the resizing logic here, similar to your previous code
-        // ...
     }
 
     override fun onDestroy() {
