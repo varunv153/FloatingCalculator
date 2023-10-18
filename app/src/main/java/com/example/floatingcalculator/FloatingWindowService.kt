@@ -31,13 +31,7 @@ class FloatingWindowService : Service() {
     override fun onCreate() {
         super.onCreate()
 
-        // Inflate the layout for the floating window
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.floating_window, null)
-
-        // Find the resize handle view by its ID
-        val resizeHandle: Button? = mFloatingView?.findViewById(R.id.resize_handle)
-
-        // Set up the WindowManager
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
         val params: WindowManager.LayoutParams = WindowManager.LayoutParams(
@@ -49,14 +43,12 @@ class FloatingWindowService : Service() {
         )
 
         params.gravity = Gravity.CENTER or Gravity.START
-        params.x = 0
-        params.y = 0
 
         mWindowManager?.addView(mFloatingView, params)
 
         // Set touch listeners for the floating view and the resize handle
         mFloatingView?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
-        resizeHandle?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+        mFloatingView?.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
     }
 
     private fun handleFloatingViewTouch(event: MotionEvent): Boolean {
