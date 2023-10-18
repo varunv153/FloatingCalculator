@@ -15,7 +15,8 @@
         android:gravity="end"
         android:inputType="none"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="#FFFFFF" />
 
     <GridLayout
         android:layout_width="match_parent"
