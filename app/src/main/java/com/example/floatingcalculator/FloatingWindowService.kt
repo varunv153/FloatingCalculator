@@ -70,7 +70,7 @@ class FloatingWindowService : Service() {
                     mWindowManager?.updateViewLayout(mFloatingView, params)
                     return true
                 }
-                return false;
+                return false
             }
             MotionEvent.ACTION_UP -> {
                 isResizing = false
