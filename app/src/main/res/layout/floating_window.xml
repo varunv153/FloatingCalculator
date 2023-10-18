@@ -26,98 +26,61 @@
         android:layout_marginTop="16dp"
         android:columnCount="4">
 
-        <!-- Buttons for numbers (0-9) -->
+        <!-- Buttons for numbers (0-9) and operators (+, -) -->
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:onClick="onNumberClick"
-            android:text="7"/>
+           style="@style/CalculatorButton"
+            android:text="7" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:onClick="onNumberClick"
+           style="@style/CalculatorButton"
             android:text="8" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="9"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="9" />
 
         <Button
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:text="+"
-            android:onClick="onOperatorClick" />
+            android:onClick="onOperatorClick"
+            android:text="+" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="4"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="4" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="5"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="5" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="6"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="6" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="-"
-            android:onClick="onOperatorClick" />
+            style="@style/CalculatorButton"
+            android:text="-" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="1"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="1" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="2"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="2" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="3"
-            android:onClick="onNumberClick" />
+           style="@style/CalculatorButton"
+            android:text="3" />
 
         <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="="
-            android:onClick="onOperatorClick" />
+            style="@style/CalculatorButton"
+            android:text="=" />
 
         <Button
             android:id="@+id/resize_handle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:text="Resize"
-            android:onClick="onOperatorClick" />
-        <!-- Add your "=" and "C" buttons here -->
+            style="@style/CalculatorButton"
+            android:text="Resize" />
     </GridLayout>
 </RelativeLayout>
