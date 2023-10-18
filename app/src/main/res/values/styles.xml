@@ -2,8 +2,9 @@
 <resources>
     <style name="CalculatorButton">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">0dp</item>
         <item name="android:layout_columnWeight">1</item>
+        <item name="android:layout_rowWeight">1</item>
         <item name="android:onClick">onNumberClick</item>
     </style>
 </resources>
