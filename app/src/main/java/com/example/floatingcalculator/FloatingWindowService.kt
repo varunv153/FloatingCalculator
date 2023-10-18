@@ -19,8 +19,8 @@ class FloatingWindowService : Service() {
     private var initialY: Int = 0
     private var initialTouchX: Float = 0.0f
     private var initialTouchY: Float = 0.0f
-    private var isResizing = false
-    private val minWindowSize = 50
+    private var isResizing: Boolean = false
+    private val minWindowSize: Int = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
 
@@ -35,12 +35,12 @@ class FloatingWindowService : Service() {
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.floating_window, null)
 
         // Find the resize handle view by its ID
-        val resizeHandle = mFloatingView?.findViewById<Button>(R.id.resize_handle)
+        val resizeHandle: Button? = mFloatingView?.findViewById(R.id.resize_handle)
 
         // Set up the WindowManager
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
-        val params = WindowManager.LayoutParams(
+        val params: WindowManager.LayoutParams = WindowManager.LayoutParams(
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.WRAP_CONTENT,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
@@ -60,7 +60,7 @@ class FloatingWindowService : Service() {
     }
 
     private fun handleFloatingViewTouch(event: MotionEvent): Boolean {
-        val params = mFloatingView?.layoutParams as WindowManager.LayoutParams
+        val params: WindowManager.LayoutParams = mFloatingView?.layoutParams as WindowManager.LayoutParams
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // Record the initial touch and view position
