@@ -63,16 +63,14 @@ class FloatingWindowService : Service() {
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
-                if (isResizing) {
-                    initialTouchX = event.rawX
-                    initialTouchY = event.rawY
-                } else {
+                if (!isResizing) {
                     // Not resizing, so it's dragging
                     params.x = (initialX + (event.rawX - initialTouchX)).toInt()
                     params.y = (initialY + (event.rawY - initialTouchY)).toInt()
                     mWindowManager?.updateViewLayout(mFloatingView, params)
+                    return true
                 }
-                return true
+                return false;
             }
             MotionEvent.ACTION_UP -> {
                 isResizing = false
@@ -88,8 +86,8 @@ class FloatingWindowService : Service() {
                 // Record the initial touch and view size
                 initialTouchX = event.rawX
                 initialTouchY = event.rawY
-                initialWidth = mFloatingView?.width ?: 0
-                initialHeight = mFloatingView?.height ?: 0
+                initialWidth = mFloatingView!!.width
+                initialHeight = mFloatingView!!.height
                 isResizing = true
                 return true
             }
@@ -105,9 +103,8 @@ class FloatingWindowService : Service() {
                     mFloatingView?.layoutParams?.height = newHeight
                     mWindowManager?.updateViewLayout(mFloatingView, mFloatingView?.layoutParams)
                     return true
-                } else {
-                    return false
                 }
+                return false
             }
             MotionEvent.ACTION_UP -> {
                 isResizing = false
