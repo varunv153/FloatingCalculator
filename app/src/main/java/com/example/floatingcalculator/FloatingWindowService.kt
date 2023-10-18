@@ -20,14 +20,9 @@ class FloatingWindowService : Service() {
     private var initialTouchX: Float = 0.0f
     private var initialTouchY: Float = 0.0f
     private var isResizing = false
-    private var resizeDirection = ResizeDirection.NONE
     private val minWindowSize = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
-
-    enum class ResizeDirection {
-        NONE
-    }
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -59,72 +54,74 @@ class FloatingWindowService : Service() {
 
         mWindowManager?.addView(mFloatingView, params)
 
-        // Set touch listener for the floating view to enable dragging
-        mFloatingView?.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    // Record the initial touch and view position
-                    initialX = params.x
-                    initialY = params.y
+        // Set touch listeners for the floating view and the resize handle
+        mFloatingView?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
+        resizeHandle?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+    }
+
+    private fun handleFloatingViewTouch(event: MotionEvent): Boolean {
+        val params = mFloatingView?.layoutParams as WindowManager.LayoutParams
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                // Record the initial touch and view position
+                initialX = params.x
+                initialY = params.y
+                initialTouchX = event.rawX
+                initialTouchY = event.rawY
+                return true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                if (isResizing) {
                     initialTouchX = event.rawX
                     initialTouchY = event.rawY
-                    true
+                } else {
+                    // Not resizing, so it's dragging
+                    params.x = (initialX + (event.rawX - initialTouchX)).toInt()
+                    params.y = (initialY + (event.rawY - initialTouchY)).toInt()
+                    mWindowManager?.updateViewLayout(mFloatingView, params)
                 }
-                MotionEvent.ACTION_MOVE -> {
-                    if (isResizing) {
-                        initialTouchX = event.rawX
-                        initialTouchY = event.rawY
-                    } else {
-                        // Not resizing, so it's dragging
-                        params.x = (initialX + (event.rawX - initialTouchX)).toInt()
-                        params.y = (initialY + (event.rawY - initialTouchY)).toInt()
-                        mWindowManager?.updateViewLayout(mFloatingView, params)
-                    }
-                    true
-                }
-                MotionEvent.ACTION_UP -> {
-                    isResizing = false
-                    resizeDirection = ResizeDirection.NONE
-                    true
-                }
-                else -> false
+                return true
             }
+            MotionEvent.ACTION_UP -> {
+                isResizing = false
+                return true
+            }
+            else -> return false
         }
+    }
 
-        // Set touch listener for the resize handle
-        resizeHandle?.setOnTouchListener { _, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    // Record the initial touch and view size
-                    initialTouchX = event.rawX
-                    initialTouchY = event.rawY
-                    initialWidth = mFloatingView?.width ?: minWindowSize
-                    initialHeight = mFloatingView?.height ?: minWindowSize
-                    isResizing = true
-                    true
-                }
-                MotionEvent.ACTION_MOVE -> {
-                    if (isResizing) {
-                        val deltaX = event.rawX - initialTouchX
-                        val deltaY = event.rawY - initialTouchY
-                        val newWidth = max(initialWidth + deltaX.toInt(), minWindowSize)
-                        val newHeight = max(initialHeight + deltaY.toInt(), minWindowSize)
-
-                        // Update the view size
-                        mFloatingView?.layoutParams?.width = newWidth
-                        mFloatingView?.layoutParams?.height = newHeight
-                        mWindowManager?.updateViewLayout(mFloatingView, mFloatingView?.layoutParams)
-                        true
-                    } else {
-                        false
-                    }
-                }
-                MotionEvent.ACTION_UP -> {
-                    isResizing = false
-                    true
-                }
-                else -> false
+    private fun handleResizeHandleTouch(event: MotionEvent): Boolean {
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                // Record the initial touch and view size
+                initialTouchX = event.rawX
+                initialTouchY = event.rawY
+                initialWidth = mFloatingView?.width ?: 0
+                initialHeight = mFloatingView?.height ?: 0
+                isResizing = true
+                return true
             }
+            MotionEvent.ACTION_MOVE -> {
+                if (isResizing) {
+                    val deltaX = event.rawX - initialTouchX
+                    val deltaY = event.rawY - initialTouchY
+                    val newWidth = max(initialWidth + deltaX.toInt(), minWindowSize)
+                    val newHeight = max(initialHeight + deltaY.toInt(), minWindowSize)
+
+                    // Update the view size
+                    mFloatingView?.layoutParams?.width = newWidth
+                    mFloatingView?.layoutParams?.height = newHeight
+                    mWindowManager?.updateViewLayout(mFloatingView, mFloatingView?.layoutParams)
+                    return true
+                } else {
+                    return false
+                }
+            }
+            MotionEvent.ACTION_UP -> {
+                isResizing = false
+                return true
+            }
+            else -> return false
         }
     }
 
