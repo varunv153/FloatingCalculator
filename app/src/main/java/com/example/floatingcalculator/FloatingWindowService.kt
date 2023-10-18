@@ -1,18 +1,23 @@
 package com.example.floatingcalculator;
 
-import android.app.Service
-import android.content.Intent
-import android.graphics.PixelFormat
-import android.os.IBinder
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.WindowManager
-import com.example.floatingcalculator.R
+import android.app.Service;
+import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.os.IBinder;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
+import com.example.floatingcalculator.R;
 
 class FloatingWindowService : Service() {
     private var mWindowManager: WindowManager? = null
     private var mFloatingView: View? = null
+    private var initialX: Int = 0
+    private var initialY: Int = 0
+    private var initialTouchX: Float = 0.0f
+    private var initialTouchY: Float = 0.0f
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -40,6 +45,30 @@ class FloatingWindowService : Service() {
         params.y = 0
 
         mWindowManager?.addView(mFloatingView, params)
+
+        // Set touch listeners for the floating view to enable dragging
+        mFloatingView?.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Record the initial touch and view position
+                    initialX = params.x
+                    initialY = params.y
+                    initialTouchX = event.rawX
+                    initialTouchY = event.rawY
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    // Calculate the new position
+                    params.x = (initialX + (event.rawX - initialTouchX)).toInt()
+                    params.y = (initialY + (event.rawY - initialTouchY)).toInt()
+
+                    // Update the view
+                    mWindowManager?.updateViewLayout(mFloatingView, params)
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onDestroy() {
