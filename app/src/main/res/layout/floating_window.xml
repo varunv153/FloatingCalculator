@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:background="#FFFFFF"
     tools:context=".MainActivity">
 
     <EditText
@@ -110,7 +111,13 @@
             android:text="="
             android:onClick="onOperatorClick" />
 
+        <Button
+            android:id="@+id/resize_handle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:text="Resize"
+            android:onClick="onOperatorClick" />
         <!-- Add your "=" and "C" buttons here -->
     </GridLayout>
-
 </RelativeLayout>
