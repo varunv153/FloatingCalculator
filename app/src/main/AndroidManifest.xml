@@ -27,7 +27,19 @@
             android:name=".FloatingWindowService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".MyQuickSettingsTileService"
+            android:label="Floating Calculator"
+            android:icon="@drawable/ic_launcher_background"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
     </application>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.BIND_QUICK_SETTINGS_TILE" />
 
 </manifest>
