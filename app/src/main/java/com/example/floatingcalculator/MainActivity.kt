@@ -10,5 +10,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val intent = Intent(this, FloatingWindowService::class.java)
         startForegroundService(intent)
+        finish()
     }
 }
