@@ -16,7 +16,7 @@ class MainActivity : ComponentActivity() {
             startCalculatorService()
         } else {
             //TODO : Use ActivityResultContracts.RequestPermission instead of ActivityResultContracts.StartActivityForResult
-            val requestOverlayPermissionLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val requestOverlayPermissionLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
                 if (Settings.canDrawOverlays(this)) {
                     startCalculatorService()
                 } else {
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    fun startCalculatorService() {
+    private fun startCalculatorService() {
         startForegroundService(Intent(this, FloatingWindowService::class.java))
         finish()
     }
