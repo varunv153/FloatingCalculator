@@ -8,7 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Please provde permission to display over other apps"
+        android:text="Please provide permission to display over other apps to enable floating calculator"
         android:gravity="center"
-        android:textSize="80dp"/>
+        android:textSize="60sp"
+        android:textColor="@color/black"/>
 </RelativeLayout>

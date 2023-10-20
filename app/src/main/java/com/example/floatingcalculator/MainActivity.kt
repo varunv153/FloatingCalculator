@@ -2,7 +2,6 @@ package com.example.floatingcalculator
 
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.ComponentActivity
@@ -23,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     setContentView(R.layout.activity_main)
                 }
             }
-            requestOverlayPermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.packageName)))
+            requestOverlayPermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
         }
     }
 
