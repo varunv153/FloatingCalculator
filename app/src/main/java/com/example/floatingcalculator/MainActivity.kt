@@ -2,14 +2,33 @@ package com.example.floatingcalculator
 
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val intent = Intent(this, FloatingWindowService::class.java)
-        startForegroundService(intent)
+        if (Settings.canDrawOverlays(this)) {
+            startCalculatorService()
+        } else {
+            //TODO : Use ActivityResultContracts.RequestPermission instead of ActivityResultContracts.StartActivityForResult
+            val requestOverlayPermissionLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (Settings.canDrawOverlays(this)) {
+                    startCalculatorService()
+                } else {
+                    setContentView(R.layout.activity_main)
+                }
+            }
+            requestOverlayPermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + this.packageName)))
+        }
+    }
+
+    fun startCalculatorService() {
+        startForegroundService(Intent(this, FloatingWindowService::class.java))
         finish()
     }
 }
