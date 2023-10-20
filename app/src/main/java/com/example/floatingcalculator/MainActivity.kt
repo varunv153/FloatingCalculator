@@ -1,4 +1,4 @@
-package com.example.floatingcalculator;
+package com.example.floatingcalculator
 
 
 import android.content.Intent
@@ -9,6 +9,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val intent = Intent(this, FloatingWindowService::class.java)
-        startService(intent)
+        startForegroundService(intent)
     }
 }
