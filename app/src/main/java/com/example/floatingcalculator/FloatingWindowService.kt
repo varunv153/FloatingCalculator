@@ -51,7 +51,7 @@ class FloatingWindowService : Service() {
     }
 
     private fun handleFloatingViewTouch(event: MotionEvent): Boolean {
-        val params: WindowManager.LayoutParams = mFloatingView?.layoutParams as WindowManager.LayoutParams
+        val params: WindowManager.LayoutParams = mFloatingView!!.layoutParams as WindowManager.LayoutParams
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // Record the initial touch and view position
@@ -98,9 +98,9 @@ class FloatingWindowService : Service() {
                     val newHeight = max(initialHeight + deltaY.toInt(), minWindowSize)
 
                     // Update the view size
-                    mFloatingView?.layoutParams?.width = newWidth
-                    mFloatingView?.layoutParams?.height = newHeight
-                    mWindowManager?.updateViewLayout(mFloatingView, mFloatingView?.layoutParams)
+                    mFloatingView!!.layoutParams?.width = newWidth
+                    mFloatingView!!.layoutParams?.height = newHeight
+                    mWindowManager!!.updateViewLayout(mFloatingView, mFloatingView!!.layoutParams)
                     return true
                 }
                 return false
@@ -116,7 +116,7 @@ class FloatingWindowService : Service() {
     override fun onDestroy() {
         super.onDestroy()
         if (mFloatingView != null) {
-            mWindowManager?.removeView(mFloatingView)
+            mWindowManager!!.removeView(mFloatingView)
         }
     }
 }
