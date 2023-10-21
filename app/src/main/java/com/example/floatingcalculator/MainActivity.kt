@@ -11,22 +11,20 @@ import androidx.activity.result.contract.ActivityResultContracts
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startApp(false)
+    }
+
+    private fun startApp(isOverlayPermissionRequested: Boolean) {
         if (Settings.canDrawOverlays(this)) {
-            startCalculatorService()
+            startForegroundService(Intent(this, FloatingWindowService::class.java))
+            finish()
+        } else if (isOverlayPermissionRequested) {
+            setContentView(R.layout.activity_main)
         } else {
             val requestOverlayPermissionLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { _ ->
-                if (Settings.canDrawOverlays(this)) {
-                    startCalculatorService()
-                } else {
-                    setContentView(R.layout.activity_main)
-                }
+                startApp(true)
             }
             requestOverlayPermissionLauncher.launch(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION))
         }
-    }
-
-    private fun startCalculatorService() {
-        startForegroundService(Intent(this, FloatingWindowService::class.java))
-        finish()
     }
 }
