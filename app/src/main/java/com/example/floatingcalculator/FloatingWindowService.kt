@@ -44,11 +44,10 @@ class FloatingWindowService : Service() {
 
         params.gravity = Gravity.CENTER or Gravity.START
 
-        mWindowManager?.addView(mFloatingView, params)
+        mWindowManager!!.addView(mFloatingView, params)
 
-        // Set touch listeners for the floating view and the resize handle
-        mFloatingView?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
-        mFloatingView?.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+        mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
+        mFloatingView!!.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
     }
 
     private fun handleFloatingViewTouch(event: MotionEvent): Boolean {
