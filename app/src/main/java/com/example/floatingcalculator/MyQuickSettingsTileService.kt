@@ -17,8 +17,8 @@ class MyQuickSettingsTileService : TileService() {
 
     override fun onClick() {
         super.onClick()
-        val intent = Intent(this@MyQuickSettingsTileService, FloatingWindowService::class.java)
+        val intent = Intent(this@MyQuickSettingsTileService, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startForegroundService(intent)
+        startActivityAndCollapse(intent)
     }
 }
