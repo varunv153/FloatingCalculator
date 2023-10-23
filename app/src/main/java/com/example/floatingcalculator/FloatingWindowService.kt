@@ -36,6 +36,13 @@ class FloatingWindowService : Service() {
         mFloatingView!!.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
     }
 
+    fun onNumberClick(view: View?) {
+        val calculatorViewManager = CalculatorViewManager()
+        if (view is Button) {
+            calculatorViewManager.handleClickInCalculator(mFloatingView!!, view)
+        }
+    }
+
     private fun initializeFloatingWindow() {
         mFloatingView = LayoutInflater.from(this).inflate(R.layout.floating_window, null)
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
