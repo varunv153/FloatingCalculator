@@ -96,7 +96,9 @@
             android:text="Resize" />
 
         <Button
+            android:id="@+id/delete_button"
             style="@style/CalculatorButton"
-            android:text="del" />
+            android:text="del"
+            android:longClickable="true"/>
     </GridLayout>
 </RelativeLayout>

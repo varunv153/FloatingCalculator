@@ -32,12 +32,20 @@ class CalculatorViewManager {
                 if (currentText.isNotEmpty()) {
                     editText.text.delete(currentText.length - 1, currentText.length)
                 }
-            } else if (isOperator(lastChar) && isOperator(button.text.toString()[0])) {
-                editText.text.delete(currentText.length - 1, currentText.length)
             } else {
+                if (isOperator(lastChar) && isOperator(button.text.toString()[0])) {
+                    editText.text.delete(currentText.length - 1, currentText.length)
+                }
                 editText.append(button.text.toString())
             }
         }
+
+        val calculatorButton = floatingView.findViewById<Button>(R.id.delete_button)
+        calculatorButton.setOnLongClickListener { v ->
+            editText.setText("")
+            true
+        }
+
     }
 
     private fun isOperator(char: Char?): Boolean {
