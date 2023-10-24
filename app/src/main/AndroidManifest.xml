@@ -30,7 +30,7 @@
         <service
             android:name=".MyQuickSettingsTileService"
             android:label="Floating Calculator"
-            android:icon="@drawable/ic_launcher_background"
+            android:icon="@drawable/baseline_calculate_20"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
             <intent-filter>
