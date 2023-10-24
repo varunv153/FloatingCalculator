@@ -5,10 +5,12 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PixelFormat
 import android.os.IBinder
+import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -19,6 +21,7 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.app.NotificationCompat
 import kotlin.math.max
+import kotlin.math.min
 
 class FloatingWindowService : Service() {
     private var mWindowManager: WindowManager? = null
@@ -145,8 +148,17 @@ class FloatingWindowService : Service() {
                 if (isResizing) {
                     val deltaX = event.rawX - initialTouchX
                     val deltaY = event.rawY - initialTouchY
-                    val newWidth = max(initialWidth + deltaX.toInt(), minWindowSize)
-                    val newHeight = max(initialHeight + deltaY.toInt(), minWindowSize)
+
+                    // Get the screen dimensions using 'this'
+                    val display = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+                    val displayMetrics = DisplayMetrics()
+                    display.getMetrics(displayMetrics)
+                    val screenWidth = displayMetrics.widthPixels
+                    val screenHeight = displayMetrics.heightPixels
+
+                    // Calculate the new width and height, ensuring they don't exceed screen boundaries
+                    val newWidth = max(min(screenWidth, initialWidth + deltaX.toInt()), minWindowSize)
+                    val newHeight = max(min(screenHeight, initialHeight + deltaY.toInt()), minWindowSize)
 
                     // Update the view size
                     mFloatingView!!.layoutParams?.width = newWidth
