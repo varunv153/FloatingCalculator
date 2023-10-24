@@ -10,7 +10,10 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PixelFormat
 import android.os.IBinder
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -19,6 +22,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.core.app.NotificationCompat
 import kotlin.math.max
 import kotlin.math.min
@@ -34,6 +38,7 @@ class FloatingWindowService : Service() {
     private val minWindowSize: Int = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
+    private var closeButton: ImageView? = null
 
 
     override fun onBind(intent: Intent): IBinder? {
@@ -113,6 +118,7 @@ class FloatingWindowService : Service() {
                 initialY = params.y
                 initialTouchX = event.rawX
                 initialTouchY = event.rawY
+                initializeCloseButton()
                 return true
             }
             MotionEvent.ACTION_MOVE -> {
@@ -127,6 +133,7 @@ class FloatingWindowService : Service() {
             }
             MotionEvent.ACTION_UP -> {
                 isResizing = false
+                destroyCloseButton()
                 return true
             }
             else -> return false
@@ -178,6 +185,55 @@ class FloatingWindowService : Service() {
             else -> return false
         }
     }
+
+    private fun initializeCloseButton() {
+
+        closeButton = ImageView(this)
+        closeButton!!.setImageResource(R.drawable.baseline_close_18) // Use your close icon
+        val closeButtonParams = WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+            PixelFormat.TRANSLUCENT
+        )
+        closeButtonParams.gravity = Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM
+        mWindowManager!!.addView(closeButton, closeButtonParams)
+
+        closeButton!!.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Implement the desired action when the close button is touched
+                    // Typically, you'd want to close the floating window here
+                    closeFloatingWindow()
+
+                    // Vibrate the device
+                    val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    if (vibrator.hasVibrator()) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
+                    }
+
+                     true
+                }
+                // Handle other touch events as needed
+                else ->  false
+            }
+        }
+
+    }
+
+    private fun closeFloatingWindow() {
+        TODO("Not yet implemented")
+    }
+
+    private fun destroyCloseButton() {
+        if (closeButton != null) {
+            mWindowManager?.removeView(closeButton)
+            closeButton = null
+        }
+    }
+
+
 
     override fun onDestroy() {
         super.onDestroy()
