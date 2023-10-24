@@ -52,12 +52,27 @@ class CalculatorViewManager {
                 editText.setText(button.text.toString())
             }
         } else {
-            if ( isOperator(lastChar) && isOperator(button.text[0])) {
+            if (button.text == "(") {
+                // Check if the last character is a digit or a closing bracket
+                if (lastChar == null || lastChar.isDigit() || lastChar == ')') {
+                    editText.append("*") // Automatically insert a multiplication operator
+                }
+                editText.append(button.text.toString())
+            } else if (button.text == ")") {
+                // Check if there's a matching open bracket
+                val openBracketCount = currentText.count { it == '(' }
+                val closeBracketCount = currentText.count { it == ')' }
+                if (openBracketCount > closeBracketCount) {
+                    editText.append(button.text.toString())
+                }
+            } else if (isOperator(lastChar) && isOperator(button.text[0])) {
                 editText.text.delete(currentText.length - 1, currentText.length)
+            } else {
+                editText.append(button.text.toString())
             }
-            editText.append(button.text.toString())
         }
     }
+
 
     private fun isOperator(char: Char?): Boolean {
         return char != null && char in "+-*/"
