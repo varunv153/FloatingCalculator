@@ -96,11 +96,12 @@
             android:src="@drawable/baseline_aspect_ratio_24"
             android:scaleType="fitXY"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/delete_button"
             style="@style/CalculatorButton"
-            android:text="del"
-            android:longClickable="true"/>
+            android:src="@drawable/baseline_backspace_24"
+            android:longClickable="true"
+            android:scaleType="fitXY"/>
 
         <Button
             style="@style/CalculatorButton"

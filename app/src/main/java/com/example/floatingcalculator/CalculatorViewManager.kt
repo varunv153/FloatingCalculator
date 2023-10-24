@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import net.objecthunter.exp4j.ExpressionBuilder
 
 class CalculatorViewManager {
@@ -15,15 +16,15 @@ class CalculatorViewManager {
 
         when (button.text) {
             "=" -> handleEqualsButton(editText, currentText)
-            "del" -> handleDeleteButton(editText, currentText)
             else -> handleOtherButtons(editText, currentText, lastChar, button)
         }
 
-        val calculatorButton = floatingView.findViewById<Button>(R.id.delete_button)
+        val calculatorButton = floatingView.findViewById<ImageButton>(R.id.delete_button)
         calculatorButton.setOnLongClickListener {
             editText.setText("")
             true
         }
+        calculatorButton.setOnClickListener { handleDeleteButton(editText) }
     }
 
     private fun handleEqualsButton(editText: EditText, currentText: String) {
@@ -36,9 +37,12 @@ class CalculatorViewManager {
         }
     }
 
-    private fun handleDeleteButton(editText: EditText, currentText: String) {
-        if (currentText.isNotEmpty()) {
-            editText.text.delete(currentText.length - 1, currentText.length)
+    private fun handleDeleteButton(editText: EditText) {
+        val text = editText.text
+        val cursorPosition = editText.selectionStart
+
+        if (cursorPosition > 0) {
+            text.delete(cursorPosition - 1, cursorPosition)
         }
     }
 
