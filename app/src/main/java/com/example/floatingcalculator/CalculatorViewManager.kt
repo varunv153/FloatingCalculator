@@ -11,7 +11,7 @@ class CalculatorViewManager {
         val editText: EditText = floatingView.findViewById(R.id.editText)
         val currentText: String = editText.text.toString()
 
-        if (currentText == "0" || currentText == "Error") {
+        if (currentText == "0" || currentText == Double.NaN.toString()) {
             if (button.text == "=") {
             } else {
                 editText.setText(button.text.toString())
@@ -35,7 +35,7 @@ class CalculatorViewManager {
     }
 
     private fun isOperator(char: Char?): Boolean {
-        return char == '+' || char == '-' || char == '*' || char == '/'
+        return char != null && char in "+-*/"
     }
 
     private fun evaluateExpression(expression: String): Double {
