@@ -32,8 +32,6 @@ class FloatingWindowService : Service() {
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
 
-    private val NOTIFICATION_CHANNEL_ID = "YourChannelId" // Replace with a unique ID
-
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -52,10 +50,12 @@ class FloatingWindowService : Service() {
     }
 
     private fun createDummyNotification(): Notification {
+
+        val channelId = "YourChannelId"
         // Create a notification channel (for Android 8.0 and higher)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL_ID,
+                channelId,
                 "Your Notification Channel Name",
                 NotificationManager.IMPORTANCE_DEFAULT
             )
@@ -69,7 +69,7 @@ class FloatingWindowService : Service() {
         )
 
         // Build and return the notification
-        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        val builder = NotificationCompat.Builder(this, channelId)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("Your Notification Title")
             .setContentText("Your Notification Text")
