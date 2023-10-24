@@ -38,11 +38,11 @@ class CalculatorViewManager {
     }
 
     private fun handleDeleteButton(editText: EditText) {
-        val text = editText.text
-        val cursorPosition = editText.selectionStart
+        val editableText = editText.text
 
-        if (cursorPosition > 0) {
-            text.delete(cursorPosition - 1, cursorPosition)
+        if (editableText.isNotEmpty()) {
+            val length = editableText.length
+            editableText.delete(length - 1, length)
         }
     }
 
