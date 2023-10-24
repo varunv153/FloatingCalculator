@@ -1,9 +1,14 @@
 package com.example.floatingcalculator
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.PixelFormat
+import android.os.Build
 import android.os.IBinder
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -12,6 +17,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import androidx.core.app.NotificationCompat
 import kotlin.math.max
 
 class FloatingWindowService : Service() {
@@ -26,6 +32,9 @@ class FloatingWindowService : Service() {
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
 
+    private val NOTIFICATION_CHANNEL_ID = "YourChannelId" // Replace with a unique ID
+
+
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -37,7 +46,38 @@ class FloatingWindowService : Service() {
         mFloatingView!!.findViewById<EditText>(R.id.editText)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+
+        startForeground(1, createDummyNotification())
+
     }
+
+    private fun createDummyNotification(): Notification {
+        // Create a notification channel (for Android 8.0 and higher)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "Your Notification Channel Name",
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
+        }
+
+        val notificationIntent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(
+            this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        // Build and return the notification
+        val builder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle("Your Notification Title")
+            .setContentText("Your Notification Text")
+            .setContentIntent(pendingIntent)
+
+        return builder.build()
+    }
+
 
     fun onNumberClick(view: View?) {
         val calculatorViewManager = CalculatorViewManager()
