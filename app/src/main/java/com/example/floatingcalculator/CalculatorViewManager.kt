@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import net.objecthunter.exp4j.ExpressionBuilder
+import java.text.DecimalFormat
 
 class CalculatorViewManager {
 
@@ -29,8 +30,7 @@ class CalculatorViewManager {
 
     private fun handleEqualsButton(editText: EditText, currentText: String) {
         try {
-            val result: Double = evaluateExpression(currentText)
-            editText.setText(result.toString())
+            editText.setText(evaluateExpression(currentText))
 
         } catch (e: Exception) {
             Log.e("Varun Floating Calculator", "Error while evaluating expression", e)
@@ -64,11 +64,25 @@ class CalculatorViewManager {
     }
 
 
-    private fun evaluateExpression(expression: String): Double {
+    private fun evaluateExpression(expression: String): String {
         return try {
-            ExpressionBuilder(expression).build().evaluate()
+            val result = ExpressionBuilder(expression).build().evaluate()
+            val formattedResult = when {
+                result.isNaN() -> "NaN"
+                result.isInfinite() -> "Infinity"
+                result % 1 == 0.0 -> result.toInt().toString()
+                else -> formatNumber(result)
+            }
+            formattedResult
+
         } catch (e: ArithmeticException) {
-            Double.NaN
+            Double.NaN.toString()
         }
     }
+
+    fun formatNumber(number: Double): String {
+        val formatter = DecimalFormat("0.##############") // Adjust the number of # symbols as needed
+        return formatter.format(number)
+    }
+
 }
