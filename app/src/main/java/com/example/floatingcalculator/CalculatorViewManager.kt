@@ -1,5 +1,6 @@
 package com.example.floatingcalculator
 
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -25,7 +26,7 @@ class CalculatorViewManager {
                     val result = evaluateExpression(currentText)
                     editText.setText(result.toString())
                 } catch (e: Exception) {
-                    editText.setText("Error")
+                    Log.e("Varun Floating Calculator", "Error while evaluating expression", e )
                 }
             } else if (button.text == "del") {
                 if (currentText.isNotEmpty()) {
@@ -46,7 +47,7 @@ class CalculatorViewManager {
     private fun evaluateExpression(expression: String): Double {
         return try {
             ExpressionBuilder(expression).build().evaluate()
-        } catch (e: Exception) {
+        } catch (e: ArithmeticException) {
             Double.NaN
         }
     }

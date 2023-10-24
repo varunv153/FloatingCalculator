@@ -73,7 +73,22 @@
 
         <Button
             style="@style/CalculatorButton"
+            android:text="*" />
+
+        <Button
+            style="@style/CalculatorButton"
+            android:text="0" />
+
+        <Button
+            style="@style/CalculatorButton"
+            android:text="." />
+
+        <Button
+            style="@style/CalculatorButton"
             android:text="=" />
+        <Button
+            style="@style/CalculatorButton"
+            android:text="/" />
 
         <Button
             android:id="@+id/resize_handle"
@@ -83,11 +98,5 @@
         <Button
             style="@style/CalculatorButton"
             android:text="del" />
-        <Button
-            style="@style/CalculatorButton"
-            android:text="*" />
-        <Button
-            style="@style/CalculatorButton"
-            android:text="/" />
     </GridLayout>
 </RelativeLayout>
