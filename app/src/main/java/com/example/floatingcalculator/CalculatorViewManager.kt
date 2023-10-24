@@ -65,9 +65,10 @@ class CalculatorViewManager {
                 if (openBracketCount > closeBracketCount) {
                     editText.append(button.text.toString())
                 }
-            } else if (isOperator(lastChar) && isOperator(button.text[0])) {
-                editText.text.delete(currentText.length - 1, currentText.length)
             } else {
+                if (isOperator(lastChar) && isOperator(button.text[0])) {
+                    editText.text.delete(currentText.length - 1, currentText.length)
+                }
                 editText.append(button.text.toString())
             }
         }
