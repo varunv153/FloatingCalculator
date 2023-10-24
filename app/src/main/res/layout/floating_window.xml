@@ -90,10 +90,11 @@
             style="@style/CalculatorButton"
             android:text="/" />
 
-        <Button
+        <ImageButton
             android:id="@+id/resize_handle"
             style="@style/CalculatorButton"
-            android:text="Resize" />
+            android:src="@drawable/baseline_aspect_ratio_24"
+            android:scaleType="fitXY"/>
 
         <Button
             android:id="@+id/delete_button"

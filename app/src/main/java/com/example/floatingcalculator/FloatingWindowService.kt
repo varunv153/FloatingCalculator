@@ -16,6 +16,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import androidx.core.app.NotificationCompat
 import kotlin.math.max
 
@@ -42,7 +43,7 @@ class FloatingWindowService : Service() {
         initializeFloatingWindow()
         mFloatingView!!.findViewById<EditText>(R.id.editText)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
-        mFloatingView!!.findViewById<Button>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+        mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
 
         startForeground(1, createDummyNotification())
 
