@@ -47,7 +47,7 @@ class CalculatorViewManager {
     }
 
     private fun handleOtherButtons(editText: EditText, currentText: String, lastChar: Char?, button: Button) {
-        if (currentText == "0" || currentText == "NaN") {
+        if (currentText == "0" || currentText == "NaN" || currentText.isEmpty()) {
             if (button.text != "=" && button.text != "del") {
                 editText.setText(button.text.toString())
             }
