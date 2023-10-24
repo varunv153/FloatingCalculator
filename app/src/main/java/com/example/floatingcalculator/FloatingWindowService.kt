@@ -134,6 +134,9 @@ class FloatingWindowService : Service() {
     }
 
     private fun handleResizeHandleTouch(event: MotionEvent): Boolean {
+        val minWidth = 398
+        val minHeight = 576
+
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 // Record the initial touch and view size
@@ -157,8 +160,8 @@ class FloatingWindowService : Service() {
                     val screenHeight = displayMetrics.heightPixels
 
                     // Calculate the new width and height, ensuring they don't exceed screen boundaries
-                    val newWidth = max(min(screenWidth, initialWidth + deltaX.toInt()), minWindowSize)
-                    val newHeight = max(min(screenHeight, initialHeight + deltaY.toInt()), minWindowSize)
+                    val newWidth = max(min(screenWidth, max(minWidth, initialWidth + deltaX.toInt())), minWidth)
+                    val newHeight = max(min(screenHeight, max(minHeight, initialHeight + deltaY.toInt())), minHeight)
 
                     // Update the view size
                     mFloatingView!!.layoutParams?.width = newWidth
