@@ -2,6 +2,7 @@ package com.example.floatingcalculator
 
 import android.app.Service
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.view.Gravity
@@ -50,8 +51,8 @@ class FloatingWindowService : Service() {
         mWindowManager = getSystemService(WINDOW_SERVICE) as WindowManager
 
         val params: WindowManager.LayoutParams = WindowManager.LayoutParams(
-            WindowManager.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            Resources.getSystem().displayMetrics.widthPixels/2,
+            Resources.getSystem().displayMetrics.heightPixels/3,
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
