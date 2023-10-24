@@ -62,7 +62,7 @@ class CalculatorViewManager {
                 // Check if there's a matching open bracket
                 val openBracketCount = currentText.count { it == '(' }
                 val closeBracketCount = currentText.count { it == ')' }
-                if (openBracketCount > closeBracketCount) {
+                if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
                     editText.append(button.text.toString())
                 }
             } else {
