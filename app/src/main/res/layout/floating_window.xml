@@ -100,5 +100,13 @@
             style="@style/CalculatorButton"
             android:text="del"
             android:longClickable="true"/>
+
+        <Button
+            style="@style/CalculatorButton"
+            android:text="(" />
+
+        <Button
+            style="@style/CalculatorButton"
+            android:text=")" />
     </GridLayout>
 </RelativeLayout>
