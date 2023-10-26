@@ -18,11 +18,17 @@ class CalculatorViewManager {
         if (overWriteCondition(currentString, buttonText)) {
             displayEditText.setText(buttonText.toString())
         } else {
-            val newDisplay: String = when (button.text) {
-                "=" -> handleEqualsButton(currentString)
-                "(" -> handleOpeningBracket(currentString)
-                ")" -> handleClosingBracket(currentString)
-                else -> handleOtherButtons(currentString, buttonText)
+            val newDisplay: String = when (buttonText) {
+                '=' -> handleEqualsButton(currentString)
+                '(' -> handleOpeningBracket(currentString)
+                ')' -> handleClosingBracket(currentString)
+                else -> {
+                    if (buttonText.isDigit()) {
+                        handleDigits(currentString, buttonText)
+                    } else {
+                        handleOperators(currentString, buttonText)
+                    }
+                }
             }
             displayEditText.setText(newDisplay)
         }
@@ -72,13 +78,16 @@ class CalculatorViewManager {
     private fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
         return currentText in listOf("0", Double.NaN.toString()) && (buttonText=='(' || buttonText.isDigit())
     }
-    private fun handleOtherButtons(currentText: String, buttonText: Char): String {
+    private fun handleOperators(currentText: String, buttonText: Char): String {
         var resultText:String = currentText
         val lastChar:Char? = currentText.lastOrNull()
-        if (isOperator(lastChar) && isOperator(buttonText)) {
+        if (isOperator(lastChar)) {
             resultText = currentText.dropLast(1)
         }
         return resultText + buttonText
+    }
+    private fun handleDigits(currentText: String, buttonText: Char): String {
+        return currentText + buttonText
     }
 
 
