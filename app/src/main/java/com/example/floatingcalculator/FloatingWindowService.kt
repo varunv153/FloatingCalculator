@@ -44,7 +44,7 @@ class FloatingWindowService : Service() {
         super.onCreate()
 
         initializeFloatingWindow()
-        mFloatingView!!.findViewById<EditText>(R.id.editText)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
+        mFloatingView!!.findViewById<EditText>(R.id.calculator_display)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
 

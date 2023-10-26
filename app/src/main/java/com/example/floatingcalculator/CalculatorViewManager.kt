@@ -11,27 +11,25 @@ import java.text.DecimalFormat
 class CalculatorViewManager {
 
     fun handleClickInCalculator(floatingView: View, button: Button) {
-        val editText: EditText = floatingView.findViewById(R.id.editText)
-        val currentText: String = editText.text.toString()
-        val lastChar = currentText.lastOrNull()
+        val displayEditText: EditText = floatingView.findViewById(R.id.calculator_display)
 
         when (button.text) {
-            "=" -> handleEqualsButton(editText, currentText)
-            else -> handleOtherButtons(editText, currentText, lastChar, button)
+            "=" -> handleEqualsButton(displayEditText)
+            else -> handleOtherButtons(displayEditText, button)
         }
 
         val calculatorButton = floatingView.findViewById<ImageButton>(R.id.delete_button)
         calculatorButton.setOnLongClickListener {
-            editText.setText("")
+            displayEditText.setText("")
             true
         }
-        calculatorButton.setOnClickListener { handleDeleteButton(editText) }
+        calculatorButton.setOnClickListener { handleDeleteButton(displayEditText) }
     }
 
-    private fun handleEqualsButton(editText: EditText, currentText: String) {
+    private fun handleEqualsButton(displayEditText: EditText) {
+        val currentText: String = displayEditText.text.toString()
         try {
-            editText.setText(evaluateExpression(currentText))
-
+            displayEditText.setText(evaluateExpression(currentText))
         } catch (e: Exception) {
             Log.e("Varun Floating Calculator", "Error while evaluating expression", e)
         }
@@ -46,30 +44,32 @@ class CalculatorViewManager {
         }
     }
 
-    private fun handleOtherButtons(editText: EditText, currentText: String, lastChar: Char?, button: Button) {
+    private fun handleOtherButtons(displayEditText: EditText, button: Button) {
+        val currentText: String = displayEditText.text.toString()
+        val lastChar = currentText.lastOrNull()
         if (currentText == "0" || currentText == "NaN" || currentText.isEmpty()) {
             if (button.text != "=" && button.text != "del") {
-                editText.setText(button.text.toString())
+                displayEditText.setText(button.text.toString())
             }
         } else {
             if (button.text == "(") {
                 // Check if the last character is a digit or a closing bracket
                 if (lastChar == null || lastChar.isDigit() || lastChar == ')') {
-                    editText.append("*") // Automatically insert a multiplication operator
+                    displayEditText.append("*") // Automatically insert a multiplication operator
                 }
-                editText.append(button.text.toString())
+                displayEditText.append(button.text.toString())
             } else if (button.text == ")") {
                 // Check if there's a matching open bracket
                 val openBracketCount = currentText.count { it == '(' }
                 val closeBracketCount = currentText.count { it == ')' }
                 if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
-                    editText.append(button.text.toString())
+                    displayEditText.append(button.text.toString())
                 }
             } else {
                 if (isOperator(lastChar) && isOperator(button.text[0])) {
-                    editText.text.delete(currentText.length - 1, currentText.length)
+                    displayEditText.text.delete(currentText.length - 1, currentText.length)
                 }
-                editText.append(button.text.toString())
+                displayEditText.append(button.text.toString())
             }
         }
     }
