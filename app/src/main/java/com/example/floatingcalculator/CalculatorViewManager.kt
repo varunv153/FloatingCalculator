@@ -46,19 +46,16 @@ class CalculatorViewManager {
     }
 
     private fun handleOtherButtons(currentText: String, buttonText: String): String {
-        var newText = currentText
-        val lastChar = currentText.lastOrNull()
-        if (currentText == "0" || currentText == "NaN" || currentText.isEmpty()) {
-            if (buttonText != "=" && buttonText != "del") {
-                return buttonText
-            }
+        var resultText:String = currentText
+        val lastChar:Char? = currentText.lastOrNull()
+        if (currentText == "0" || currentText == Double.NaN.toString() || currentText.isEmpty()) {
             return currentText
         } else {
             if (buttonText == "(") {
                 if (lastChar == null || lastChar.isDigit() || lastChar == ')') {
-                    newText = "$currentText*"
+                    resultText = "$currentText*"
                 }
-                return newText + buttonText
+                return resultText + buttonText
             } else if (buttonText == ")") {
                 val openBracketCount = currentText.count { it == '(' }
                 val closeBracketCount = currentText.count { it == ')' }
@@ -68,9 +65,9 @@ class CalculatorViewManager {
                 return currentText
             } else {
                 if (isOperator(lastChar) && isOperator(buttonText[0])) {
-                    newText = currentText.dropLast(1)
+                    resultText = currentText.dropLast(1)
                 }
-                return newText + buttonText
+                return resultText + buttonText
             }
         }
     }
