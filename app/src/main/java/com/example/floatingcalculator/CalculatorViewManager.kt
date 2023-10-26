@@ -16,7 +16,7 @@ class CalculatorViewManager {
         val newDisplay:String = when (button.text) {
             "=" -> handleEqualsButton(displayEditText.text.toString())
             "(" -> handleOpeningBracket(displayEditText.text.toString())
-            "(" -> handleClosingBracket(displayEditText.text.toString())
+            ")" -> handleClosingBracket(displayEditText.text.toString())
             else -> handleOtherButtons(displayEditText.text.toString(), button.text.toString())
         }
         displayEditText.setText(newDisplay)
