@@ -47,10 +47,10 @@ class CalculatorViewManager {
 
 
     private fun handleClosingBracket(currentText: String): String {
-        val lastChar:Char? = currentText.lastOrNull()
+        val lastChar:Char = currentText.last()
         val openBracketCount = currentText.count { it == '(' }
         val closeBracketCount = currentText.count { it == ')' }
-        if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
+        if (openBracketCount > closeBracketCount && !isOperator(lastChar)) {
             return currentText + ")"
         }
         return currentText
