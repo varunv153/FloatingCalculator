@@ -31,7 +31,7 @@ class CalculatorViewManager {
 
         val calculatorButton = floatingView.findViewById<ImageButton>(R.id.delete_button)
         calculatorButton.setOnLongClickListener {
-            displayEditText.setText("")
+            displayEditText.setText("0")
             true
         }
         calculatorButton.setOnClickListener { handleDeleteButton(displayEditText) }
@@ -75,19 +75,15 @@ class CalculatorViewManager {
     }
 
     private fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
-        return currentText in listOf("0", Double.NaN.toString(), "") && (buttonText=='(' || buttonText.isDigit())
+        return currentText in listOf("0", Double.NaN.toString()) && (buttonText=='(' || buttonText.isDigit())
     }
     private fun handleOtherButtons(currentText: String, buttonText: Char): String {
         var resultText:String = currentText
         val lastChar:Char? = currentText.lastOrNull()
-        if (overWriteCondition(currentText,buttonText)) {
-            return buttonText.toString()
-        } else {
-            if (isOperator(lastChar) && isOperator(buttonText)) {
-                resultText = currentText.dropLast(1)
-            }
-            return resultText + buttonText
+        if (isOperator(lastChar) && isOperator(buttonText)) {
+            resultText = currentText.dropLast(1)
         }
+        return resultText + buttonText
     }
 
 
