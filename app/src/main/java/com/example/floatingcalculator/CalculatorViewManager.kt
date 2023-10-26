@@ -15,6 +15,8 @@ class CalculatorViewManager {
 
         val newDisplay:String = when (button.text) {
             "=" -> handleEqualsButton(displayEditText.text.toString())
+            "(" -> handleOpeningBracket(displayEditText.text.toString())
+            "(" -> handleClosingBracket(displayEditText.text.toString())
             else -> handleOtherButtons(displayEditText.text.toString(), button.text.toString())
         }
         displayEditText.setText(newDisplay)
@@ -25,6 +27,28 @@ class CalculatorViewManager {
             true
         }
         calculatorButton.setOnClickListener { handleDeleteButton(displayEditText) }
+    }
+
+    private fun handleOpeningBracket(currentText: String): String {
+        if (overWriteCondition(currentText)) {
+            return "("
+        }
+        var resultText:String = currentText
+        val lastChar:Char = currentText.lastOrNull() ?: ' '
+        if (lastChar.isDigit() || lastChar == ')') {
+            resultText = "$currentText*"
+        }
+        return resultText + "("
+    }
+
+    private fun handleClosingBracket(currentText: String): String {
+        val lastChar:Char? = currentText.lastOrNull()
+        val openBracketCount = currentText.count { it == '(' }
+        val closeBracketCount = currentText.count { it == ')' }
+        if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
+            return currentText + ")"
+        }
+        return currentText
     }
 
     private fun handleEqualsButton(currentText: String): String {
@@ -45,30 +69,19 @@ class CalculatorViewManager {
         }
     }
 
+    private fun overWriteCondition(currentText: String) : Boolean {
+        return currentText in listOf("0", Double.NaN.toString(), "")
+    }
     private fun handleOtherButtons(currentText: String, buttonText: String): String {
         var resultText:String = currentText
         val lastChar:Char? = currentText.lastOrNull()
-        if (currentText == "0" || currentText == Double.NaN.toString() || currentText.isEmpty()) {
-            return currentText
+        if (overWriteCondition(currentText)) {
+            return buttonText
         } else {
-            if (buttonText == "(") {
-                if (lastChar == null || lastChar.isDigit() || lastChar == ')') {
-                    resultText = "$currentText*"
-                }
-                return resultText + buttonText
-            } else if (buttonText == ")") {
-                val openBracketCount = currentText.count { it == '(' }
-                val closeBracketCount = currentText.count { it == ')' }
-                if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
-                    return currentText + buttonText
-                }
-                return currentText
-            } else {
-                if (isOperator(lastChar) && isOperator(buttonText[0])) {
-                    resultText = currentText.dropLast(1)
-                }
-                return resultText + buttonText
+            if (isOperator(lastChar) && isOperator(buttonText[0])) {
+                resultText = currentText.dropLast(1)
             }
+            return resultText + buttonText
         }
     }
 
