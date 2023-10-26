@@ -13,13 +13,21 @@ class CalculatorViewManager {
     fun handleClickInCalculator(floatingView: View, button: Button) {
         val displayEditText: EditText = floatingView.findViewById(R.id.calculator_display)
 
-        val newDisplay:String = when (button.text) {
-            "=" -> handleEqualsButton(displayEditText.text.toString())
-            "(" -> handleOpeningBracket(displayEditText.text.toString())
-            ")" -> handleClosingBracket(displayEditText.text.toString())
-            else -> handleOtherButtons(displayEditText.text.toString(), button.text.toString())
+        if (overWriteCondition(displayEditText.text.toString(), button.text.toString()[0])) {
+            displayEditText.setText(button.text.toString())
         }
-        displayEditText.setText(newDisplay)
+        else {
+            val newDisplay: String = when (button.text) {
+                "=" -> handleEqualsButton(displayEditText.text.toString())
+                "(" -> handleOpeningBracket(displayEditText.text.toString())
+                ")" -> handleClosingBracket(displayEditText.text.toString())
+                else -> handleOtherButtons(
+                    displayEditText.text.toString(),
+                    button.text.toString()[0]
+                )
+            }
+            displayEditText.setText(newDisplay)
+        }
 
         val calculatorButton = floatingView.findViewById<ImageButton>(R.id.delete_button)
         calculatorButton.setOnLongClickListener {
@@ -30,9 +38,6 @@ class CalculatorViewManager {
     }
 
     private fun handleOpeningBracket(currentText: String): String {
-        if (overWriteCondition(currentText)) {
-            return "("
-        }
         var resultText:String = currentText
         val lastChar:Char = currentText.lastOrNull() ?: ' '
         if (lastChar.isDigit() || lastChar == ')') {
@@ -69,16 +74,16 @@ class CalculatorViewManager {
         }
     }
 
-    private fun overWriteCondition(currentText: String) : Boolean {
-        return currentText in listOf("0", Double.NaN.toString(), "")
+    private fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
+        return currentText in listOf("0", Double.NaN.toString(), "") && (buttonText=='(' || buttonText.isDigit())
     }
-    private fun handleOtherButtons(currentText: String, buttonText: String): String {
+    private fun handleOtherButtons(currentText: String, buttonText: Char): String {
         var resultText:String = currentText
         val lastChar:Char? = currentText.lastOrNull()
-        if (overWriteCondition(currentText)) {
-            return buttonText
+        if (overWriteCondition(currentText,buttonText)) {
+            return buttonText.toString()
         } else {
-            if (isOperator(lastChar) && isOperator(buttonText[0])) {
+            if (isOperator(lastChar) && isOperator(buttonText)) {
                 resultText = currentText.dropLast(1)
             }
             return resultText + buttonText
