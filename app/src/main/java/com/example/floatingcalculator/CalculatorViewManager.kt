@@ -33,7 +33,9 @@ class CalculatorViewManager {
             displayEditText.setText("0")
             true
         }
-        calculatorButton.setOnClickListener { handleDeleteButton(displayEditText) }
+        calculatorButton.setOnClickListener {
+            displayEditText.setText(handleDeleteButton(displayEditText.text.toString()))
+        }
     }
 
     private fun handleOpeningBracket(currentText: String): String {
@@ -64,13 +66,8 @@ class CalculatorViewManager {
         }
     }
 
-    private fun handleDeleteButton(editText: EditText) {
-        val editableText = editText.text
-
-        if (editableText.isNotEmpty()) {
-            val length = editableText.length
-            editableText.delete(length - 1, length)
-        }
+    private fun handleDeleteButton(currentText: String) : String {
+        return currentText.dropLast(1)
     }
 
     private fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
