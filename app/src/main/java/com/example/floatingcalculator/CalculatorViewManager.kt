@@ -12,19 +12,18 @@ class CalculatorViewManager {
 
     fun handleClickInCalculator(floatingView: View, button: Button) {
         val displayEditText: EditText = floatingView.findViewById(R.id.calculator_display)
+        val currentString:String  = displayEditText.text.toString()
+        val buttonText:Char = button.text.toString()[0]
 
-        if (overWriteCondition(displayEditText.text.toString(), button.text.toString()[0])) {
-            displayEditText.setText(button.text.toString())
+        if (overWriteCondition(currentString, buttonText)) {
+            displayEditText.setText(buttonText.toString())
         }
         else {
             val newDisplay: String = when (button.text) {
-                "=" -> handleEqualsButton(displayEditText.text.toString())
-                "(" -> handleOpeningBracket(displayEditText.text.toString())
-                ")" -> handleClosingBracket(displayEditText.text.toString())
-                else -> handleOtherButtons(
-                    displayEditText.text.toString(),
-                    button.text.toString()[0]
-                )
+                "=" -> handleEqualsButton(currentString)
+                "(" -> handleOpeningBracket(currentString)
+                ")" -> handleClosingBracket(currentString)
+                else -> handleOtherButtons(currentString, buttonText)
             }
             displayEditText.setText(newDisplay)
         }
