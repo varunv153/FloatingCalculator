@@ -22,13 +22,8 @@ class CalculatorViewManager {
                 '=' -> handleEqualsButton(currentString)
                 '(' -> handleOpeningBracket(currentString)
                 ')' -> handleClosingBracket(currentString)
-                else -> {
-                    if (buttonText.isDigit()) {
-                        handleDigits(currentString, buttonText)
-                    } else {
-                        handleOperators(currentString, buttonText)
-                    }
-                }
+                in '0'..'9' -> handleDigits(currentString, buttonText)
+                else -> handleOperators(currentString, buttonText)
             }
             displayEditText.setText(newDisplay)
         }
