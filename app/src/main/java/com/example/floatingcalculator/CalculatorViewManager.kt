@@ -38,13 +38,13 @@ class CalculatorViewManager {
     }
 
     private fun handleOpeningBracket(currentText: String): String {
-        var resultText:String = currentText
-        val lastChar:Char = currentText.lastOrNull() ?: ' '
-        if (lastChar.isDigit() || lastChar == ')') {
-            resultText = "$currentText*"
+        return if ( currentText.last().isDigit() || currentText.last() == ')') {
+            "$currentText*("
+        } else {
+            "$currentText("
         }
-        return resultText + "("
     }
+
 
     private fun handleClosingBracket(currentText: String): String {
         val lastChar:Char? = currentText.lastOrNull()
