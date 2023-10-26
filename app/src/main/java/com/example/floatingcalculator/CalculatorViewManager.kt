@@ -17,8 +17,7 @@ class CalculatorViewManager {
 
         if (overWriteCondition(currentString, buttonText)) {
             displayEditText.setText(buttonText.toString())
-        }
-        else {
+        } else {
             val newDisplay: String = when (button.text) {
                 "=" -> handleEqualsButton(currentString)
                 "(" -> handleOpeningBracket(currentString)
