@@ -14,8 +14,8 @@ class CalculatorViewManager {
         val displayEditText: EditText = floatingView.findViewById(R.id.calculator_display)
 
         val newDisplay:String = when (button.text) {
-            "=" -> handleEqualsButton(displayEditText)
-            else -> handleOtherButtons(displayEditText, button)
+            "=" -> handleEqualsButton(displayEditText.text.toString())
+            else -> handleOtherButtons(displayEditText.text.toString(), button.text.toString())
         }
         displayEditText.setText(newDisplay)
 
@@ -27,8 +27,7 @@ class CalculatorViewManager {
         calculatorButton.setOnClickListener { handleDeleteButton(displayEditText) }
     }
 
-    private fun handleEqualsButton(displayEditText: EditText): String {
-        val currentText: String = displayEditText.text.toString()
+    private fun handleEqualsButton(currentText: String): String {
         return try {
             evaluateExpression(currentText)
         } catch (e: Exception) {
@@ -46,33 +45,32 @@ class CalculatorViewManager {
         }
     }
 
-    private fun handleOtherButtons(displayEditText: EditText, button: Button): String {
-        val currentText: String = displayEditText.text.toString()
+    private fun handleOtherButtons(currentText: String, buttonText: String): String {
         var newText = currentText
         val lastChar = currentText.lastOrNull()
         if (currentText == "0" || currentText == "NaN" || currentText.isEmpty()) {
-            if (button.text != "=" && button.text != "del") {
-                return button.text.toString()
+            if (buttonText != "=" && buttonText != "del") {
+                return buttonText
             }
             return currentText
         } else {
-            if (button.text == "(") {
+            if (buttonText == "(") {
                 if (lastChar == null || lastChar.isDigit() || lastChar == ')') {
-                    newText = currentText + "*"
+                    newText = "$currentText*"
                 }
-                return newText + button.text.toString()
-            } else if (button.text == ")") {
+                return newText + buttonText
+            } else if (buttonText == ")") {
                 val openBracketCount = currentText.count { it == '(' }
                 val closeBracketCount = currentText.count { it == ')' }
                 if (openBracketCount > closeBracketCount && (lastChar == null || !isOperator(lastChar))) {
-                    return currentText + button.text.toString()
+                    return currentText + buttonText
                 }
                 return currentText
             } else {
-                if (isOperator(lastChar) && isOperator(button.text[0])) {
-                    currentText.dropLast(1)
+                if (isOperator(lastChar) && isOperator(buttonText[0])) {
+                    newText = currentText.dropLast(1)
                 }
-                return currentText + button.text.toString()
+                return newText + buttonText
             }
         }
     }
