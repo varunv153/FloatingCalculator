@@ -11,6 +11,7 @@ import android.content.res.Resources
 import android.graphics.PixelFormat
 import android.os.IBinder
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -20,10 +21,17 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import androidx.core.app.NotificationCompat
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
+@AndroidEntryPoint
 class FloatingWindowService : Service() {
+
+    @Inject
+    lateinit var calculatorViewManager: CalculatorViewManager
+
     private var mWindowManager: WindowManager? = null
     private var mFloatingView: View? = null
     private var initialX: Int = 0
@@ -41,9 +49,11 @@ class FloatingWindowService : Service() {
     }
 
     override fun onCreate() {
+        Log.i("","creating floating window service")
         super.onCreate()
-
+        Log.i("","Initializing floating window")
         initializeFloatingWindow()
+        Log.i("","Floating window initialized")
         mFloatingView!!.findViewById<EditText>(R.id.calculator_display)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
@@ -81,7 +91,6 @@ class FloatingWindowService : Service() {
 
 
     fun onNumberClick(view: View?) {
-        val calculatorViewManager = CalculatorViewManager()
         if (view is Button) {
             calculatorViewManager.handleClickInCalculator(mFloatingView!!, view)
         }
