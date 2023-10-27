@@ -39,7 +39,6 @@ class FloatingWindowService : Service() {
     private var initialTouchX: Float = 0.0f
     private var initialTouchY: Float = 0.0f
     private var isResizing: Boolean = false
-    private val minWindowSize: Int = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
 
