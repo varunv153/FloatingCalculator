@@ -59,6 +59,19 @@ class CalculatorExpressionHandler @Inject constructor() {
         }
     }
 
+    fun handleDecimalPoint(currentString: String): String {
+        val parts:List<String> = currentString.split(Regex("[^0-9.]"))
+        if (parts.isNotEmpty()) {
+            val lastPart:String = parts.last()
+            if (lastPart.contains('.')) {
+                return currentString
+            }
+        }
+        return "$currentString."
+    }
+
+
+
     fun handleDigits(currentText: String, buttonText: Char): String {
         return currentText + buttonText
     }

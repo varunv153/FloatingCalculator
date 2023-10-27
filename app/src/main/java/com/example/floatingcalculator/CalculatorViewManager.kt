@@ -22,6 +22,7 @@ class CalculatorViewManager @Inject constructor(private val calculatorExpression
                 '=' -> calculatorExpressionHandler.handleEqualsButton(currentString)
                 '(' -> calculatorExpressionHandler.handleOpeningBracket(currentString)
                 ')' -> calculatorExpressionHandler.handleClosingBracket(currentString)
+                '.' -> calculatorExpressionHandler.handleDecimalPoint(currentString)
                 in '0'..'9' -> calculatorExpressionHandler.handleDigits(currentString, buttonText)
                 else -> calculatorExpressionHandler.handleOperators(currentString, buttonText)
             }
