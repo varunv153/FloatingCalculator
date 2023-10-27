@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 class CalculatorExpressionHandler @Inject constructor() {
     fun handleOpeningBracket(currentText: String): String {
-        return if ( currentText.last().isDigit() || currentText.last() == ')') {
+        return if (currentText.last().isDigit() || currentText.last() == ')') {
             "$currentText*("
         } else {
             "$currentText("
@@ -16,7 +16,7 @@ class CalculatorExpressionHandler @Inject constructor() {
 
 
     fun handleClosingBracket(currentText: String): String {
-        val lastChar:Char = currentText.last()
+        val lastChar: Char = currentText.last()
         val openBracketCount = currentText.count { it == '(' }
         val closeBracketCount = currentText.count { it == ')' }
         if (openBracketCount > closeBracketCount && !isOperator(lastChar)) {
@@ -34,24 +34,31 @@ class CalculatorExpressionHandler @Inject constructor() {
         }
     }
 
-    fun handleDeleteButton(currentText: String) : String {
+    fun handleDeleteButton(currentText: String): String {
         return currentText.dropLast(1).takeIf { it.isNotEmpty() } ?: "0"
     }
 
-    fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
+    fun overWriteCondition(currentText: String, buttonText: Char): Boolean {
         val conditionNan: Boolean = (currentText == Double.NaN.toString())
         val conditionZero: Boolean =
             (currentText == "0" && (buttonText == '(' || buttonText.isDigit()))
         return conditionNan || conditionZero
     }
+
     fun handleOperators(currentText: String, buttonText: Char): String {
-        var resultText:String = currentText
-        val lastChar:Char? = currentText.lastOrNull()
-        if (isOperator(lastChar)) {
-            resultText = currentText.dropLast(1)
+        val lastChar: Char = currentText.last()
+        val isValidLastChar: Boolean = (lastChar == ')' || lastChar.isDigit() || isOperator(lastChar))
+        return if (isValidLastChar) {
+            var resultText: String = currentText
+            if (isOperator(lastChar)) {
+                resultText = currentText.dropLast(1)
+            }
+            resultText + buttonText
+        } else {
+            currentText
         }
-        return resultText + buttonText
     }
+
     fun handleDigits(currentText: String, buttonText: Char): String {
         return currentText + buttonText
     }
