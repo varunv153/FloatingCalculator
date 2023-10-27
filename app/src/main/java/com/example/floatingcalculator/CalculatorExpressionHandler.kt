@@ -39,7 +39,10 @@ class CalculatorExpressionHandler @Inject constructor() {
     }
 
     fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
-        return currentText in listOf("0", Double.NaN.toString()) && (buttonText=='(' || buttonText.isDigit())
+        val conditionNan: Boolean = (currentText == Double.NaN.toString())
+        val conditionZero: Boolean =
+            (currentText == "0" && (buttonText == '(' || buttonText.isDigit()))
+        return conditionNan || conditionZero
     }
     fun handleOperators(currentText: String, buttonText: Char): String {
         var resultText:String = currentText
