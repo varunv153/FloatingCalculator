@@ -35,7 +35,7 @@ class CalculatorExpressionHandler @Inject constructor() {
     }
 
     fun handleDeleteButton(currentText: String) : String {
-        return currentText.dropLast(1)
+        return currentText.dropLast(1).takeIf { it.isNotEmpty() } ?: "0"
     }
 
     fun overWriteCondition(currentText: String, buttonText: Char) : Boolean {
@@ -54,12 +54,12 @@ class CalculatorExpressionHandler @Inject constructor() {
     }
 
 
-    fun isOperator(char: Char?): Boolean {
+    private fun isOperator(char: Char?): Boolean {
         return char != null && char in "+-*/"
     }
 
 
-    fun evaluateExpression(expression: String): String {
+    private fun evaluateExpression(expression: String): String {
         return try {
             val result = ExpressionBuilder(expression).build().evaluate()
             val formattedResult = when {
@@ -75,8 +75,8 @@ class CalculatorExpressionHandler @Inject constructor() {
         }
     }
 
-    fun formatNumber(number: Double): String {
-        val formatter = DecimalFormat("0.##############") // Adjust the number of # symbols as needed
+    private fun formatNumber(number: Double): String {
+        val formatter = DecimalFormat("0.##############")
         return formatter.format(number)
     }
 }
