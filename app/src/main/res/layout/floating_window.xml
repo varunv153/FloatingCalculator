@@ -6,12 +6,20 @@
     android:background="#FFFFFF"
     tools:context=".MainActivity">
 
+    <ImageButton
+        android:id="@+id/close_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/baseline_close_18" />
+
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/calculator_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/close_button"
         android:layout_marginTop="0dp"
-        android:hint="0"
+        android:text="0"
         android:textSize="24sp"
         android:gravity="end"
         android:inputType="none"
@@ -22,7 +30,7 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/editText"
+        android:layout_below="@+id/calculator_display"
         android:layout_marginTop="16dp"
         android:columnCount="4">
 

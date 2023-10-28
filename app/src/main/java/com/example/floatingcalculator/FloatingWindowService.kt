@@ -24,10 +24,17 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.app.NotificationCompat
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 import kotlin.math.max
 import kotlin.math.min
 
+@AndroidEntryPoint
 class FloatingWindowService : Service() {
+
+    @Inject
+    lateinit var calculatorViewManager: CalculatorViewManager
+
     private var mWindowManager: WindowManager? = null
     private var mFloatingView: View? = null
     private var initialX: Int = 0
@@ -35,7 +42,6 @@ class FloatingWindowService : Service() {
     private var initialTouchX: Float = 0.0f
     private var initialTouchY: Float = 0.0f
     private var isResizing: Boolean = false
-    private val minWindowSize: Int = 50
     private var initialWidth: Int = 0
     private var initialHeight: Int = 0
     private var closeButton: ImageView? = null
@@ -46,12 +52,15 @@ class FloatingWindowService : Service() {
     }
 
     override fun onCreate() {
+        Log.i(MainActivity.TAG_LOG,"creating floating window service")
         super.onCreate()
-
+        Log.i(MainActivity.TAG_LOG,"Initializing floating window")
         initializeFloatingWindow()
-        mFloatingView!!.findViewById<EditText>(R.id.editText)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
+        Log.i(MainActivity.TAG_LOG,"Floating window initialized")
+        mFloatingView!!.findViewById<EditText>(R.id.calculator_display)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+        mFloatingView!!.findViewById<ImageButton>(R.id.close_button)?.setOnClickListener { stopSelf() }
 
         startForeground(1, createDummyNotification())
 
@@ -86,7 +95,6 @@ class FloatingWindowService : Service() {
 
 
     fun onNumberClick(view: View?) {
-        val calculatorViewManager = CalculatorViewManager()
         if (view is Button) {
             calculatorViewManager.handleClickInCalculator(mFloatingView!!, view)
         }
