@@ -29,7 +29,7 @@ class CalculatorExpressionHandler @Inject constructor() {
         return try {
             evaluateExpression(currentText)
         } catch (e: Exception) {
-            Log.e("Varun Floating Calculator", "Error while evaluating expression", e)
+            Log.e(MainActivity.TAG_LOG, "Error while evaluating expression", e)
             currentText
         }
     }
