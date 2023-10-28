@@ -48,11 +48,11 @@ class FloatingWindowService : Service() {
     }
 
     override fun onCreate() {
-        Log.i("","creating floating window service")
+        Log.i(MainActivity.TAG_LOG,"creating floating window service")
         super.onCreate()
-        Log.i("","Initializing floating window")
+        Log.i(MainActivity.TAG_LOG,"Initializing floating window")
         initializeFloatingWindow()
-        Log.i("","Floating window initialized")
+        Log.i(MainActivity.TAG_LOG,"Floating window initialized")
         mFloatingView!!.findViewById<EditText>(R.id.calculator_display)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
