@@ -22,10 +22,20 @@ android {
         }
     }
 
+    signingConfigs {
+        register("release") {
+            storeFile = file("your-keystore-file.jks")
+            storePassword = "varunv"
+            keyAlias = "key-alias"
+            keyPassword = "varunv"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
