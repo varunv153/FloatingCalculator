@@ -56,6 +56,7 @@ class FloatingWindowService : Service() {
         mFloatingView!!.findViewById<EditText>(R.id.calculator_display)?.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.setOnTouchListener { _, event -> handleFloatingViewTouch(event) }
         mFloatingView!!.findViewById<ImageButton>(R.id.resize_handle)?.setOnTouchListener { _, event -> handleResizeHandleTouch(event) }
+        mFloatingView!!.findViewById<ImageButton>(R.id.close_button)?.setOnClickListener { stopSelf() }
 
         startForeground(1, createDummyNotification())
 
