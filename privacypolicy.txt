@@ -1,0 +1,20 @@
+**Privacy Policy for Calculator App**
+
+We respect your privacy and are committed to protecting your personal information. This privacy policy explains how our calculator app handles data.
+
+**Data Collection:**
+Our calculator app does not collect any personal or sensitive user data. It operates solely to perform calculations based on user input and does not store or transmit any user data.
+
+**Permissions:**
+If our app requests any permissions, such as access to storage for saving calculation history, it is solely for the purpose of providing that feature. We do not use your data for any other purposes.
+
+**Data Security:**
+All calculations are performed locally on your device and are not stored or shared with any third parties. We do not send your data to remote servers.
+
+**Updates:**
+Our app may receive occasional updates for bug fixes or improvements. Any changes to this privacy policy will be reflected in app updates.
+
+**Contact Information:**
+If you have any questions or concerns about our privacy policy, please contact us at [Your Contact Email Address].
+
+Thank you for using our calculator app.
