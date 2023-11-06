@@ -1,4 +1,4 @@
-package com.example.floatingcalculator
+package com.varunhobbydev.floatingcalculator
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp

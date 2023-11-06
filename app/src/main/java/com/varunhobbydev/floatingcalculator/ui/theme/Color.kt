@@ -1,4 +1,4 @@
-package com.example.floatingcalculator.ui.theme
+package com.varunhobbydev.floatingcalculator.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

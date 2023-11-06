@@ -1,4 +1,4 @@
-package com.example.floatingcalculator
+package com.varunhobbydev.floatingcalculator
 
 import android.util.Log
 import net.objecthunter.exp4j.ExpressionBuilder

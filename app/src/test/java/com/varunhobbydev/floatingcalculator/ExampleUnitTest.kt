@@ -1,4 +1,4 @@
-package com.example.floatingcalculator
+package com.varunhobbydev.floatingcalculator
 
 import org.junit.Test
 

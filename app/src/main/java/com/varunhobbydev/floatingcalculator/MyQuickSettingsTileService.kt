@@ -1,4 +1,4 @@
-package com.example.floatingcalculator
+package com.varunhobbydev.floatingcalculator
 
 import android.content.Intent
 import android.service.quicksettings.Tile

@@ -1,4 +1,4 @@
-package com.example.floatingcalculator
+package com.varunhobbydev.floatingcalculator
 
 import android.view.View
 import android.widget.Button

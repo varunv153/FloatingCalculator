@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.floatingcalculator"
+    namespace = "com.varunhobbydev.floatingcalculator"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.floatingcalculator"
+        applicationId = "com.varunhobbydev.floatingcalculator"
         minSdk = 33
         targetSdk = 33
         versionCode = 1

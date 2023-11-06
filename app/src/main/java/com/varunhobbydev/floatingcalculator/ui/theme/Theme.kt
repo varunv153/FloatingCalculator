@@ -1,4 +1,4 @@
-package com.example.floatingcalculator.ui.theme
+package com.varunhobbydev.floatingcalculator.ui.theme
 
 import android.app.Activity
 import android.os.Build
